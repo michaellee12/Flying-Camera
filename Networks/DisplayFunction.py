@@ -16,7 +16,7 @@ def FlyingCameraNetworkDisplay():
     from scipy.interpolate import UnivariateSpline
     
     clear_output()
-    print("loading...(Might take a minute)")
+    print("loading...(Might take a minute) Please go back up to read the rest of the instructions")
 
     #Network layers
     def hyperspectral(input_,n_o_input, keep_prob, filter_width = 1, stride_size =1, relu_alpha = 0.2):
@@ -181,11 +181,18 @@ def FlyingCameraNetworkDisplay():
                 subclass_softmax_p,main_class_softmax_p= sess.run([subclass_softmax,main_class_softmax], feed_dict = {input_:reflectance_data,keep_prob:keep_probability})
                 clear_output(wait=True)
                 display(Markdown("#### "+title))
-                display(Markdown("##### Main Class"))
+                display(Markdown("##### __Main Class__"))
                 main_class_softmax_p  = main_class_softmax_p[0]
-                display(Markdown("Non-scat: "+str(main_class_softmax_p[0])))
-                display(Markdown("Scat    : "+str(main_class_softmax_p[1])))
-                display(Markdown("##### Subclass"))
+                
+                if main_class_softmax_p[0]>.5:
+                    display(Markdown("✔ Non-scat: "+str(main_class_softmax_p[0])))
+                    display(Markdown("✖ Scat    : "+str(main_class_softmax_p[1])))
+                else: 
+                    display(Markdown("✖ Non-scat: "+str(main_class_softmax_p[0])))
+                    display(Markdown("✔ Scat    : "+str(main_class_softmax_p[1])))
+
+                
+                display(Markdown("##### __Subclass__"))
                 subclass_softmax_p = subclass_softmax_p[0]
 
                 subclass_name = [    "Leaf Litter   ",
@@ -196,8 +203,13 @@ def FlyingCameraNetworkDisplay():
                                      "Amphibian Scat",
                                      "Reptile Scat  ",
                                      "Reptile Urea  "] 
+                max_ = max(subclass_softmax_p)
                 for subclass,name in zip(subclass_softmax_p,subclass_name):
-                    display(Markdown(name+": " +str(subclass)))
+                    if subclass== max_:
+                        display(Markdown("✔ "+name+": " +str(subclass)))
+                    else:
+                        display(Markdown("✖ "+name+": " +str(subclass)))
+
         with box4:
             print_network_output('../training_rgb',
                                  "RGB Network Classification",

@@ -125,6 +125,7 @@ def FlyingCameraNetworkDisplay():
     
 
     display(Markdown("## &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;View Classification" ))
+    display(Markdown("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Scroll back up to Step 2 if instruction is needed." ))
 
     RGB = []
     hyperspectral = []
@@ -139,7 +140,7 @@ def FlyingCameraNetworkDisplay():
     markdown =  Output(layout=Layout(width='95%'))
     with markdown:
         display(Markdown("#### Adjust The Wavelengths"))
-        display(Markdown("<sup>To Customise Your Own RGB & Hyperspectral Input</sup>"))
+        display(Markdown("###### Click The cirlce, hold the mouse down and drag to customise your own RGB & hyperspectral input. When you are done, click the 'Run Classification' button at the bottom "))
     
     slider1 = FloatSlider(min=0, max=1, step=0.01, value=0.5,description='380nm',layout= Layout(width='99%'))
     slider2 = FloatSlider(min=0, max=1, step=0.01, value=0.5,description='450nm',layout= Layout(width='99%'))
@@ -245,7 +246,7 @@ def FlyingCameraNetworkDisplay():
         dic = {}
         for feature,target in zip(features, targets):
             dic[target]=list(feature)
-        if z == "Make your own":
+        if z == "Make your own spectrum":
             x= [380,450,550,650,750,850,950]
             y = [a,b,c,d,e,f,g]
             plt.scatter(x, y)
@@ -289,7 +290,7 @@ def FlyingCameraNetworkDisplay():
             display(Markdown("G(530nm): "+ str(green) ))
             display(Markdown("B(465nm): "+ str(blue) ))
 
-        if z == "Make your own":
+        if z == "Make your own spectrum":
             with box4:
                 clear_output(wait=False)
             with box5:
@@ -300,7 +301,7 @@ def FlyingCameraNetworkDisplay():
             classify(RGB,hyperspectral)
     material = widgets.Dropdown(
         options=["Select",
-            "Make your own",
+            "Make your own spectrum",
               'Average Amphibian Scat', 
               'Average Bird Scat', 
               'Average Ground',

@@ -16,7 +16,7 @@ def FlyingCameraNetworkDisplay():
     from scipy.interpolate import UnivariateSpline
     
     clear_output()
-    print("loading...(Might take a minute) Please go back up to read the rest of the instructions")
+    display(Markdown("## loading...(Might take a minute) Please go back up to read the rest of the instructions"))
 
     #Network layers
     def hyperspectral(input_,n_o_input, keep_prob, filter_width = 1, stride_size =1, relu_alpha = 0.2):
